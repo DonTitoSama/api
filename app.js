@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 const mongoose = require('mongoose');
-
+mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://0.0.0.0:27017/api');
 
 app.use(express.urlencoded());
