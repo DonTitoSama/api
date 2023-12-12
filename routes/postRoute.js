@@ -12,14 +12,16 @@ const express = require('express');
 const router = express.Router();
 
 const postController = require('../controllers/postController');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 // /posts
 router
     .route('/')
     .get(postController.listAllPosts)
-    .post(postController.createAPost);
+    .post(jwtMiddleware.verifiyToken, postController.createAPost);
 
-    // /posts/:id_post
+    
+// /posts/:id_post
 router
     .route('/:id_post')
     .delete(postController.deleteAPost)

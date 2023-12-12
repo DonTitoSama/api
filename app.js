@@ -15,6 +15,9 @@ app.use('/posts', postRoute);
 const comRoute = require(`./routes/comRoute`);
 app.use('/', comRoute);
 
+const userRoute = require(`./routes/userRoute`);
+app.use('/user', userRoute);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });
