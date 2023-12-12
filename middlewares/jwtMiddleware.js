@@ -1,20 +1,31 @@
 const jwt = require('jsonwebtoken');
 const jwtKey = process.env.JWT_KEY;
 
-exports.verifiyToken = (req, res, next) => {
-    let token = req.headers('authorization');
-    if (token !== undefined) {
-        jwt.verify(token, jwtKey, (error, payload) => {
-            if(error) {
-                console.log(error);
-                res.status(403).json({message: 'Accès interdit : token invalide'});
-            }
-            else {
-                next();
-            }
-        });
-    } 
-    else {
-        res.status(403).json({message: 'Accès interdit : token manquant'});
+exports.verifiyToken = async (req, res, next) => {
+    try {
+        const token = req.headers('authorization');
+
+        if (token !== undefined) {
+            const payload = await new Promise((resolve, reject) => {
+                jwt.verify(token, jwtKey, (error, decoded) => {
+                    if(error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(decoded);
+                    }
+                });
+            });
+            req.user = payload;
+            next();
+        } 
+        else {
+            res.status(403).json({message: 'Accès interdit : token manquant'});
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(403).json({message: "Accès interdit : token invalide"});
+
     }
 }
