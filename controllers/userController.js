@@ -1,11 +1,12 @@
 const User = require('../models/userModels');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 exports.userRegister = async (req, res) => {
     try {
         let newUser = new User(req.body);
         let user = await newUser.save();
-        res.status(201).json({message: 'User crée: ${user.email}'});
+        res.status(201).json({ message: `User créé: ${user.email}` });        
     } 
     catch (error) {
         console.log(error);
