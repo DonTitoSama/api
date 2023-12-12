@@ -27,7 +27,7 @@ exports.createAPost = async (req, res) => {
     }*/
 
     try {
-        let newPost = new Post(req/body);
+        let newPost = new Post(req.body);
 
         let randomTextPromise = textApiProvider.getRandomText();
 
